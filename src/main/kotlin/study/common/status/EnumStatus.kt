@@ -10,3 +10,8 @@ enum class Dormitory(val desc: String) {
     KYUNG13("경상13"),
     KYUNG14("경상14"),
 }
+
+enum class ResultCode(val msg: String) {
+    SUCCESS("정상 처리 되었습니다."),
+    ERROR("에러가 발생했습니다.")
+}

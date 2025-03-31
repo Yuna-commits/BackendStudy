@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import study.common.annotation.ValidEnum
 import study.common.status.Dormitory
+import study.member.entity.Member
 import java.time.LocalDate
 
 //회원가입시 입력받을 정보
@@ -48,4 +49,7 @@ data class MemberDtoRequest (
         get() = _email!!
     val dormitory: Dormitory
         get() = Dormitory.valueOf(_dormitory!!)
+
+    fun toEntity(): Member =
+        Member(id, loginId, password, name, email, dormitory)
 }
