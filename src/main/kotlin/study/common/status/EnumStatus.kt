@@ -1,3 +1,4 @@
+//어플리케이션에서 사용할 status
 package study.common.status
 
 //기숙사 타입

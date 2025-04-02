@@ -1,3 +1,4 @@
+//비즈니스 로직
 package study.member.service
 
 import jakarta.transaction.Transactional
@@ -15,8 +16,9 @@ class MemberService(
     /**
      * 회원가입
      */
+    //MemberDtoRequest class: 회원가입시 입력받을 정보
     fun signUp(memberDtoRequest: MemberDtoRequest): String {
-        //ID 중복 검사
+        //ID 중복 검사 -> ID 조회가 가능하면 member != null
         var member: Member? = memberRepository.findByLoginId(memberDtoRequest.loginId)
         if (member != null) {
             throw InvalidInputException("loginId", "이미 등록된 ID 입니다.")

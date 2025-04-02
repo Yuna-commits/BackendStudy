@@ -1,3 +1,4 @@
+//entitiy: 회원 정보 관련 Entity
 package study.member.entity
 
 import jakarta.persistence.*
@@ -27,6 +28,6 @@ class Member(
     val email: String,
 
     @Column(nullable = false, length = 10)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)//db에 Dormitory의 이름(STRING)을 그대로 입력
     val dormitory: Dormitory,
 )
