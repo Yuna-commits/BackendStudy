@@ -49,7 +49,7 @@ data class MemberDtoRequest (
         get() = _name!!
     val email: String
         get() = _email!!
-    val dormitory: Dormitory//String?을 enum class로 변환
+    val dormitory: Dormitory//String?을 enum class 로 변환
         get() = Dormitory.valueOf(_dormitory!!)
 
     //Entity 반환

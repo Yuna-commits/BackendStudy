@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 //@Target: annotation 이 적용될 위치 선택
 //@Retention: 어노테이션을 컴파일된 클래스 파일에 저장할 것인지(SOURCE) 런타임에 반영할 것인지(RUNTIME) 정의
-//@MustBeDocumented: API의 일부분으로 문서화하기 위해 사용
+//@MustBeDocumented: API 의 일부분으로 문서화하기 위해 사용
 //@Constraint
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)

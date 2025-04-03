@@ -31,8 +31,14 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+	//Validation 사용시 필요
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	//Spring Security 사용시 필요
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	//JWT 사용시 필요
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 }
 
 noArg{
