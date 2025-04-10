@@ -3,8 +3,11 @@ package study.member.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import study.member.entity.Member
+import study.member.entity.MemberRole
 
 interface MemberRepository : JpaRepository<Member, Long> {//JpaRepository 상속
     //loginId로 찾기, ID 중복 검사를 위해 필요
     fun findByLoginId(loginId: String): Member?
 }
+
+interface  MemberRoleRepository : JpaRepository<MemberRole, Long>

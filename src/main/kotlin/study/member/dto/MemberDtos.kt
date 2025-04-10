@@ -56,3 +56,18 @@ data class MemberDtoRequest (
     fun toEntity(): Member =
         Member(id, loginId, password, name, email, dormitory)
 }
+
+data class LoginDto (
+    @field:NotBlank//빈 값을 받지 않음, 필수값
+    @JsonProperty("loginId")
+    private val _loginId: String?,
+
+    @field:NotBlank
+    @JsonProperty("password")
+    private val _password: String?,
+) {//custom getter
+    val loginId: String
+        get() = _loginId!!
+    val password: String
+        get() = _password!!
+}

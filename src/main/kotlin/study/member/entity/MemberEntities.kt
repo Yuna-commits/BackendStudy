@@ -3,6 +3,7 @@ package study.member.entity
 
 import jakarta.persistence.*
 import study.common.status.Dormitory
+import study.common.status.ROLE
 
 @Entity
 @Table(
@@ -30,4 +31,22 @@ class Member(
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)//db에 Dormitory의 이름(STRING)을 그대로 입력
     val dormitory: Dormitory,
+) {//1 : N 연결
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    val memberRole: List<MemberRole>? = null
+}
+
+@Entity
+class MemberRole(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null,
+
+    @Column(nullable = false, length = 30)
+    @Enumerated(EnumType.STRING)
+    val role: ROLE,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_member_id"))
+    val member: Member,
 )
