@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import study.common.dto.CustomUser
 
 @Service
 class CustomUserDetailsService (
@@ -21,7 +22,8 @@ class CustomUserDetailsService (
             ?: throw UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다.") //검색되는 정보가 없음
 
     private fun createUserDetails(member: Member): UserDetails =
-        User(
+        CustomUser(
+            member.id!!,
             member.loginId,
             passwordEncoder.encode(member.password),
             member.memberRole!!.map { SimpleGrantedAuthority("ROLE_${it.role}")}

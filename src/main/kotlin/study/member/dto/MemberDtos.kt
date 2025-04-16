@@ -11,7 +11,7 @@ import study.member.entity.Member
 
 //회원가입시 입력받을 정보
 data class MemberDtoRequest (
-    val id: Long?,
+    var id: Long?,
 
     @field:NotBlank//빈 값을 받지 않음
     @JsonProperty("loginId")//loginId와 _loginId 연결, loginId 사용
@@ -71,3 +71,11 @@ data class LoginDto (
     val password: String
         get() = _password!!
 }
+
+data class MemberDtoResponse (
+    val id: Long,
+    val loginId: String,
+    val name: String,
+    val email: String,
+    val dormitory: String,
+)

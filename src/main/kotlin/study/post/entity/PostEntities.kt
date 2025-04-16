@@ -18,6 +18,7 @@ class Post(
 
     @Column(nullable = false, length = 10, updatable = false)
     val writer : String,
+
     @Column(nullable = false, updatable = false)
     val createDate: LocalDateTime
 )

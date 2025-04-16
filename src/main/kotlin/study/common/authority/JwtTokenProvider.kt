@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
+import study.common.dto.CustomUser
 import java.util.*
 
 const val EXPIRATION_MILLISECONDS: Long = 1000 * 60 * 30//60초 * 30개 -> 30분
@@ -39,6 +40,8 @@ class JwtTokenProvider {
             .builder()
             .subject(authentication.name)
             .claim("auth", authorities)//auth 라는 이름으로 권한을 담음
+            //토큰 생성시 userId 정보도 기록
+            .claim("userId", (authentication.principal as CustomUser).userId)
             .issuedAt(now)//토큰 발행 시간
             .expiration(accessExpiration)//유효 시간
             .signWith(key, Jwts.SIG.HS256)//사용한 알고리즘
@@ -55,13 +58,15 @@ class JwtTokenProvider {
 
         //auth 가 없으면 RuntimeException
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")
+        val userId = claims["userId"] ?: throw RuntimeException("잘못된 토큰입니다.")
 
         //권한 정보 추출
         val authorities: Collection<GrantedAuthority> = (auth as String)
             .split(",")
             .map {SimpleGrantedAuthority(it)}
 
-        val principal: UserDetails = User(claims.subject, "", authorities)
+        val principal: UserDetails =
+            CustomUser(userId.toString().toLong(),claims.subject, "", authorities)
 
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }

@@ -2,6 +2,7 @@
 package study.member.service
 
 import jakarta.transaction.Transactional
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.stereotype.Service
@@ -11,6 +12,7 @@ import study.common.exception.InvalidInputException
 import study.common.status.ROLE
 import study.member.dto.LoginDto
 import study.member.dto.MemberDtoRequest
+import study.member.dto.MemberDtoResponse
 import study.member.entity.Member
 import study.member.entity.MemberRole
 import study.member.repository.MemberRepository
@@ -57,5 +59,24 @@ class MemberService(
         //DB에 있는 유저네임과 비교, 문제가 없으면 사용자에게 토큰 발행
 
         return jwtTokenProvider.createToken(authentication)
+    }
+
+    /**
+     * 내 정보 조회
+     */
+    fun searchMyInfo(id: Long): MemberDtoResponse {
+        //해당하는 id가 없으면 예외 처리
+        val member = memberRepository.findByIdOrNull(id)
+            ?: throw InvalidInputException("id", "회원번호(${id})가 존재하지 않는 사용자입니다.")
+        return member.toDto()
+    }
+
+    /**
+     * 내 정보 수정
+     */
+    fun saveMyInfo(memberDtoRequest: MemberDtoRequest): String {
+        val member = memberDtoRequest.toEntity()
+        memberRepository.save(member)
+        return "정보 수정이 완료되었습니다."
     }
 }

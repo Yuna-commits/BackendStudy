@@ -4,6 +4,7 @@ package study.member.entity
 import jakarta.persistence.*
 import study.common.status.Dormitory
 import study.common.status.ROLE
+import study.member.dto.MemberDtoResponse
 
 @Entity
 @Table(
@@ -34,6 +35,16 @@ class Member(
 ) {//1 : N 연결
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: List<MemberRole>? = null
+
+    //DTO 변경 함수
+    fun toDto(): MemberDtoResponse =
+        MemberDtoResponse(
+            id!!,
+            loginId,
+            name,
+            email,
+            dormitory.desc //dormitory 에 해당하는 값을 받음
+        )
 }
 
 @Entity
