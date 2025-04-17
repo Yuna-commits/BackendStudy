@@ -1,9 +1,14 @@
 package study.post.entity
 
 import jakarta.persistence.*
+import study.post.dto.PostDtoResponse
 import java.time.LocalDateTime
 
 @Entity
+@Table(
+    //loginId 중복X
+    uniqueConstraints = [UniqueConstraint(name = "uk_member_login_id", columnNames = ["loginId"])]
+)
 class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +22,18 @@ class Post(
     val content: String,
 
     @Column(nullable = false, length = 10, updatable = false)
-    val writer : String,
+    var writer : String,
 
     @Column(nullable = false, updatable = false)
     val createDate: LocalDateTime
-)
+) {
+    //DTO 변경 함수
+    fun toDto(): PostDtoResponse =
+        PostDtoResponse(
+            id!!,
+            title,
+            content,
+            writer,
+            createDate
+        )
+}

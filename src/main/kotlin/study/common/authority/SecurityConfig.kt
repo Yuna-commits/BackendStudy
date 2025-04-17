@@ -29,6 +29,7 @@ class SecurityConfig (
             .authorizeHttpRequests {
                 it.requestMatchers("/api/member/signup", "/api/member/login").anonymous()
                     .requestMatchers("/api/member/info/**").hasRole("MEMBER")
+                    .requestMatchers("api/post/posting/**").hasRole("MEMBER")
                     .anyRequest().permitAll()
             }
             //뒤 필터를 실행하기 전에 앞 필터를 먼저 실행, 앞 필터가 통과되면 뒤 필터는 실행 X

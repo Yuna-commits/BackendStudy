@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import study.common.dto.CustomUser
@@ -43,7 +42,7 @@ class JwtTokenProvider {
             //토큰 생성시 userId 정보도 기록
             .claim("userId", (authentication.principal as CustomUser).userId)
             .issuedAt(now)//토큰 발행 시간
-            .expiration(accessExpiration)//유효 시간
+            .expiration(accessExpiration)//토큰 유효 시간
             .signWith(key, Jwts.SIG.HS256)//사용한 알고리즘
             .compact()
 

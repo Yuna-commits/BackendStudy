@@ -61,7 +61,7 @@ class MemberController (
     /**
      * 내 정보 수정
      */
-    @PutMapping("info")
+    @PutMapping("/info")
     fun saveMyInfo(@RequestBody @Valid memberDtoRequest: MemberDtoRequest):
             BaseResponse<Unit> {
         val userId = (SecurityContextHolder
@@ -71,6 +71,6 @@ class MemberController (
             .userId
         memberDtoRequest.id = userId
         val resultMsg: String = memberService.saveMyInfo(memberDtoRequest)
-        return BaseResponse(message= resultMsg)
+        return BaseResponse(message = resultMsg)
     }
 }

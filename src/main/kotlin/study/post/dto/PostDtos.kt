@@ -2,12 +2,12 @@ package study.post.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Pattern
 import study.post.entity.Post
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class PostDtoRequest(
-    val id: Long? = null,
+    var id: Long? = null,
 
     @field:NotBlank //빈칸 허용 x
     @JsonProperty("title")
@@ -17,14 +17,27 @@ data class PostDtoRequest(
     @JsonProperty("content")
     private val _content : String?,
 
-    private val writer : String = "익명의 사용자",
+    @field:NotBlank
+    @JsonProperty("writer")
+    var _writer : String = "익명(${id})",
+
     private val createDate: LocalDateTime = LocalDateTime.now()
 ) {
     val title: String
         get() = _title!!.toString()
     val content: String
         get() = _content!!.toString()
+    val writer: String
+        get() = _writer
 
     fun toEntity(): Post =
-        Post(null, title, writer, content, createDate)
+        Post(null, title, content, writer, createDate)
 }
+
+data class PostDtoResponse (
+    val id: Long,
+    val title: String,
+    val content: String,
+    val writer: String,
+    val createDate: LocalDateTime
+)

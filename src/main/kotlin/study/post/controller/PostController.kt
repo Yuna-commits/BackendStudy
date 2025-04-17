@@ -1,17 +1,17 @@
 package study.post.controller
 
 import jakarta.validation.Valid
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.*
 import study.common.dto.BaseResponse
+import study.common.dto.CustomUser
 import study.post.dto.PostDtoRequest
+import study.post.dto.PostDtoResponse
 import study.post.service.PostService
 
-@RequestMapping("/api/member")
+@RequestMapping("/api/post")
 @RestController
-class PostController (
+class PostController(
     private val postService: PostService
 ) {
     /**
@@ -19,7 +19,40 @@ class PostController (
      */
     @PostMapping("/posting")
     fun posting(@RequestBody @Valid postDtoRequest: PostDtoRequest): BaseResponse<String> {
-        val result = postService.posting(postDtoRequest)
+        val userId = (SecurityContextHolder
+            .getContext()
+            .authentication
+            .principal as CustomUser)
+            .userId
+
+        val result = postService.posting(userId, postDtoRequest)
         return BaseResponse(result)
+    }
+
+    /**
+     * 게시글 작성자 조회
+     */
+    @GetMapping("/userInfo")
+    fun searchUser(): BaseResponse<PostDtoResponse> {
+        val userId = (SecurityContextHolder
+            .getContext()
+            .authentication
+            .principal as CustomUser)
+            .userId
+        val response = postService.searchUser(userId)
+        return BaseResponse(data = response)
+    }
+
+    /**
+     * 게시글 작성자 수정
+     */
+    @PutMapping("/userInfo")
+    fun changeUserName(@RequestBody @Valid postDtoRequest: PostDtoRequest):
+            BaseResponse<Unit> {
+        val userName = (SecurityContextHolder
+            .getContext())
+        postDtoRequest._writer = userName.toString()
+        val resultMsg: String = postService.changeUserName(postDtoRequest)
+        return BaseResponse(message = resultMsg)
     }
 }
