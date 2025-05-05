@@ -2,7 +2,6 @@ package study.post.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Pattern
 import study.post.entity.Post
 import java.time.LocalDateTime
 
@@ -17,27 +16,17 @@ data class PostDtoRequest(
     @JsonProperty("content")
     private val _content : String?,
 
-    @field:NotBlank
-    @JsonProperty("writer")
-    var _writer : String = "익명(${id})",
-
+    //게시글 좋아요 수
+    private val likes : Long = 0,
     private val createDate: LocalDateTime = LocalDateTime.now()
 ) {
     val title: String
         get() = _title!!.toString()
     val content: String
         get() = _content!!.toString()
-    val writer: String
-        get() = _writer
 
-    fun toEntity(): Post =
-        Post(null, title, content, writer, createDate)
+    //Member 의 name 을 writer 로 사용
+    fun toEntity(writer: String): Post {
+        return Post(null, title, content, writer, likes, createDate)
+    }
 }
-
-data class PostDtoResponse (
-    val id: Long,
-    val title: String,
-    val content: String,
-    val writer: String,
-    val createDate: LocalDateTime
-)

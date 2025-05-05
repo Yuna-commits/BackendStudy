@@ -31,6 +31,7 @@ class JwtTokenProvider {
             .authorities
             .joinToString(",", transform = GrantedAuthority::getAuthority)
 
+        //만료시간 설정
         val now = Date()
         val accessExpiration = Date(now.time + EXPIRATION_MILLISECONDS)
 
