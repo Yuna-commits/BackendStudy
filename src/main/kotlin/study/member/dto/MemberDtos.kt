@@ -38,8 +38,8 @@ data class MemberDtoRequest (
 
     @field:NotBlank
     @field:ValidEnum(enumClass = Dormitory::class, message = "올바른 기숙사 타입을 선택해주세요.")
-    @JsonProperty("dormitory")
-    private val _dormitory: String?,
+    @JsonProperty("dormType")
+    private val _dormType: String?,
 ) {//Custom Getter
     val loginId: String
         get() = _loginId!!
@@ -49,12 +49,12 @@ data class MemberDtoRequest (
         get() = _name!!
     val email: String
         get() = _email!!
-    val dormitory: Dormitory//String?을 enum class 로 변환
-        get() = Dormitory.valueOf(_dormitory!!)
+    val dormType: Dormitory//String?을 enum class 로 변환
+        get() = Dormitory.valueOf(_dormType!!)
 
     //Entity 반환
     fun toEntity(): Member =
-        Member(id, loginId, password, name, email, dormitory)
+        Member(id, loginId, password, name, email, dormType)
 }
 
 data class LoginDto (
@@ -77,5 +77,5 @@ data class MemberDtoResponse (
     val loginId: String,
     val name: String,
     val email: String,
-    val dormitory: String,
+    val dormType: String,
 )

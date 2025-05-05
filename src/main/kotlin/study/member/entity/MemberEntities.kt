@@ -31,7 +31,7 @@ class Member(
 
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)//db에 Dormitory의 이름(STRING)을 그대로 입력
-    val dormitory: Dormitory,
+    val dormType: Dormitory,
 ) {//1 : N 연결
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: List<MemberRole>? = null
@@ -43,7 +43,7 @@ class Member(
             loginId,
             name,
             email,
-            dormitory.desc //dormitory 에 해당하는 값을 받음
+            dormType.desc //dormitory 에 해당하는 값을 받음
         )
 }
 
