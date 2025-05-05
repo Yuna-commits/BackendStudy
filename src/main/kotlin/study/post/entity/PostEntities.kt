@@ -7,17 +7,17 @@ import java.time.LocalDateTime
 class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
 
     //title, content 수정 가능, writer, date 는 수정 불가능
     @Column(nullable = false, length = 30, updatable = true)
-    val title: String,
+    var title: String,
 
     @Column(nullable = false, length = 500, updatable = true)
-    val content: String,
+    var content: String,
 
     @Column(nullable = false, length = 10, updatable = false)
-    var writer : String,
+    val writer : String,
 
     @Column(nullable = false, updatable = true)
     var likes : Long,
