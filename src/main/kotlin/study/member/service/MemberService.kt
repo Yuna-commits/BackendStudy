@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 import study.common.authority.JwtTokenProvider
 import study.common.authority.TokenInfo
 import study.common.exception.InvalidInputException
+import study.common.status.Dormitory
 import study.common.status.ROLE
 import study.member.dto.LoginDto
 import study.member.dto.MemberDtoRequest
@@ -78,5 +79,15 @@ class MemberService(
         val member = memberDtoRequest.toEntity()
         memberRepository.save(member)
         return "정보 수정이 완료되었습니다."
+    }
+
+    /**
+     * 같은 기숙사 조회 -> id로 기준 기숙사 타입 결정
+     * !!으로 null 이 아닌 경우에만 기숙사 타입 받음
+     */
+    fun getDormInfo(id: Long): List<MemberDtoResponse> {
+        val dormType = memberRepository.findByIdOrNull(id)!!.dormType
+        val result = memberRepository.findByDormType(dormType)
+        return result.map { it.toDto() }
     }
 }
