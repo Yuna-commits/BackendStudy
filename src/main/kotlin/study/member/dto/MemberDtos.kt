@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import study.common.annotation.ValidEnum
 import study.common.status.Dormitory
 import study.member.entity.Member
@@ -41,10 +42,13 @@ data class MemberDtoRequest (
     @JsonProperty("dormType")
     private val _dormType: String?,
 ) {//Custom Getter
+    //암호화 기능 추가
+    private val encoder = SCryptPasswordEncoder(16,8,1,8,8)
+
     val loginId: String
         get() = _loginId!!
-    val password: String
-        get() = _password!!
+    private val password: String
+        get() = encoder.encode(_password)
     val name: String
         get() = _name!!
     val email: String

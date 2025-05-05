@@ -36,7 +36,7 @@ class Member(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     val memberRole: List<MemberRole>? = null
 
-    //DTO 변경 함수
+    //DTO 변경 함수 -> 비밀번호 제외
     fun toDto(): MemberDtoResponse =
         MemberDtoResponse(
             id!!,

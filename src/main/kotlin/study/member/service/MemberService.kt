@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import study.common.authority.JwtTokenProvider
 import study.common.authority.TokenInfo
@@ -53,8 +54,16 @@ class MemberService(
      * 로그인 -> 토큰 발행
      */
     fun login(loginDto: LoginDto): TokenInfo {
+        val member = memberRepository.findByLoginId(loginDto.loginId)
+            ?: throw InvalidInputException("로그인 아이디 혹은 비밀번호가 틀렸습니다.")
+        val encoder = SCryptPasswordEncoder(16,8,1,8,8)
+        if(!encoder.matches(loginDto.password, member.password)) {
+            throw InvalidInputException("로그인 아이디 혹은 비밀번호가 틀렸습니다.")
+        }
+
+        //loginDto 의 password 암호화 -> DB에 존재하는 내용으로 토큰 발행
         val authenticationToken =
-            UsernamePasswordAuthenticationToken(loginDto.loginId, loginDto.password)
+            UsernamePasswordAuthenticationToken(loginDto.loginId, member.password)
         val authentication =
             authenticationManagerBuilder.`object`.authenticate(authenticationToken)
         //DB에 있는 유저네임과 비교, 문제가 없으면 사용자에게 토큰 발행
