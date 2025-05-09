@@ -12,7 +12,7 @@ import study.member.entity.Member
 
 //회원가입시 입력받을 정보
 data class MemberDtoRequest (
-    var id: Long?,
+    var userId: Long?,
 
     @field:NotBlank//빈 값을 받지 않음
     @JsonProperty("loginId")//loginId와 _loginId 연결, loginId 사용
@@ -58,7 +58,7 @@ data class MemberDtoRequest (
 
     //Entity 반환
     fun toEntity(): Member =
-        Member(id, loginId, password, name, email, dormType)
+        Member(userId, loginId, password, name, email, dormType)
 }
 
 data class LoginDto (
@@ -77,7 +77,7 @@ data class LoginDto (
 }
 
 data class MemberDtoResponse (
-    val id: Long,
+    val userId: Long,
     val loginId: String,
     val name: String,
     val email: String,

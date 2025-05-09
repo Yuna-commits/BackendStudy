@@ -6,7 +6,7 @@ import study.post.entity.Post
 import java.time.LocalDateTime
 
 data class PostDtoRequest(
-    val id: Long? = null,
+    val userId: Long? = null,
 
     @field:NotBlank //빈칸 허용 x
     @JsonProperty("title")

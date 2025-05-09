@@ -74,10 +74,10 @@ class MemberService(
     /**
      * 내 정보 조회
      */
-    fun searchMyInfo(id: Long): MemberDtoResponse {
+    fun searchMyInfo(userId: Long): MemberDtoResponse {
         //해당하는 id가 없으면 예외 처리
-        val member = memberRepository.findByIdOrNull(id)
-            ?: throw InvalidInputException("id", "회원번호(${id})가 존재하지 않는 사용자입니다.")
+        val member = memberRepository.findByIdOrNull(userId)
+            ?: throw InvalidInputException("userId", "회원번호(${userId}): 존재하지 않는 사용자입니다.")
         return member.toDto()
     }
 
@@ -91,11 +91,11 @@ class MemberService(
     }
 
     /**
-     * 같은 기숙사 조회 -> id로 기준 기숙사 타입 결정
+     * 같은 기숙사 조회 -> userId로 기준 기숙사 타입 결정
      * !!으로 null 이 아닌 경우에만 기숙사 타입 받음
      */
-    fun getDormInfo(id: Long): List<MemberDtoResponse> {
-        val dormType = memberRepository.findByIdOrNull(id)!!.dormType
+    fun getDormInfo(userId: Long): List<MemberDtoResponse> {
+        val dormType = memberRepository.findByIdOrNull(userId)!!.dormType
         val result = memberRepository.findByDormType(dormType)
         return result.map { it.toDto() }
     }

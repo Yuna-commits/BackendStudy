@@ -69,7 +69,7 @@ class MemberController (
             .authentication
             .principal as CustomUser)
             .userId
-        memberDtoRequest.id = userId
+        memberDtoRequest.userId = userId
         val resultMsg: String = memberService.saveMyInfo(memberDtoRequest)
         return BaseResponse(message = resultMsg)
     }

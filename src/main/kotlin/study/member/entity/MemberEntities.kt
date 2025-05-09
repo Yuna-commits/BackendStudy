@@ -14,7 +14,7 @@ import study.member.dto.MemberDtoResponse
 class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null,
+    var userId: Long? = null,
 
     @Column(nullable = false, length = 30, updatable = false)
     //updatable = false -> 업데이트시 loginId는 제외, 변경X
@@ -39,7 +39,7 @@ class Member(
     //DTO 변경 함수 -> 비밀번호 제외
     fun toDto(): MemberDtoResponse =
         MemberDtoResponse(
-            id!!,
+            userId!!,
             loginId,
             name,
             email,
@@ -51,7 +51,7 @@ class Member(
 class MemberRole(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null,
+    var userId: Long? = null,
 
     @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)

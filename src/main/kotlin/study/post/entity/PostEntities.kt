@@ -7,9 +7,9 @@ import java.time.LocalDateTime
 class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val userId: Long? = null,
 
-    //title, content 수정 가능, writer, date 는 수정 불가능
+    //title, content, like 수정 가능, writer, date 는 수정 불가능
     @Column(nullable = false, length = 30, updatable = true)
     var title: String,
 
