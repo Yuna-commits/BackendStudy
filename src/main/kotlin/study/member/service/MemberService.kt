@@ -84,7 +84,7 @@ class MemberService(
     /**
      * 내 정보 수정
      */
-    fun saveMyInfo(memberDtoRequest: MemberDtoRequest): String {
+    fun changeMyInfo(memberDtoRequest: MemberDtoRequest): String {
         val member = memberDtoRequest.toEntity()
         memberRepository.save(member)
         return "정보 수정이 완료되었습니다."
