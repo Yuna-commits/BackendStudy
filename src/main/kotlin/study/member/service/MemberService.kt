@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service
 import study.common.authority.JwtTokenProvider
 import study.common.authority.TokenInfo
 import study.common.exception.InvalidInputException
-import study.common.status.Dormitory
 import study.common.status.ROLE
 import study.member.dto.LoginDto
 import study.member.dto.MemberDtoRequest
 import study.member.dto.MemberDtoResponse
+import study.member.dto.MemberInfoDto
 import study.member.entity.Member
 import study.member.entity.MemberRole
 import study.member.repository.MemberRepository
@@ -82,8 +82,18 @@ class MemberService(
     }
 
     /**
-     * 내 정보 수정
+     * 내 정보 수정 -> overloading
+     * MemberInfoDto -> MemberDtoRequest 변환
      */
+    fun changeMyInfo(memberInfo: MemberInfoDto): String {
+        val member = memberRepository.findByIdOrNull(memberInfo.userId)
+            ?: throw InvalidInputException("userId", "회원번호(${memberInfo.userId}): 존재하지 않는 사용자입니다.")
+
+        val updateDto = memberInfo.applyTo(member)
+
+        return changeMyInfo(updateDto)
+    }
+
     fun changeMyInfo(memberDtoRequest: MemberDtoRequest): String {
         val member = memberDtoRequest.toEntity()
         memberRepository.save(member)

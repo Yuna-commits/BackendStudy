@@ -16,6 +16,7 @@ import study.common.dto.CustomUser
 import study.member.dto.LoginDto
 import study.member.dto.MemberDtoRequest
 import study.member.dto.MemberDtoResponse
+import study.member.dto.MemberInfoDto
 import study.member.service.MemberService
 
 //EndPoint: POST /api/member/signup
@@ -59,18 +60,18 @@ class MemberController (
     }
 
     /**
-     * 내 정보 수정
+     * 내 정보 수정 -> 403 에러
      */
     @PutMapping("/info")
-    fun changeMyInfo(@RequestBody @Valid memberDtoRequest: MemberDtoRequest):
+    fun changeMyInfo(@RequestBody @Valid memberInfoDto: MemberInfoDto):
             BaseResponse<Unit> {
         val userId = (SecurityContextHolder
             .getContext()
             .authentication
             .principal as CustomUser)
             .userId
-        memberDtoRequest.userId = userId
-        val resultMsg: String = memberService.changeMyInfo(memberDtoRequest)
+        memberInfoDto.userId = userId
+        val resultMsg: String = memberService.changeMyInfo(memberInfoDto)
         return BaseResponse(message = resultMsg)
     }
 

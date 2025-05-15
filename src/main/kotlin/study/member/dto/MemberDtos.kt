@@ -9,6 +9,7 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 import study.common.annotation.ValidEnum
 import study.common.status.Dormitory
 import study.member.entity.Member
+import study.member.repository.MemberRepository
 
 //회원가입시 입력받을 정보
 data class MemberDtoRequest (
@@ -83,3 +84,31 @@ data class MemberDtoResponse (
     val email: String,
     val dormType: String,
 )
+
+//내 정보 수정시 입력받을 정보
+//password, name, email, dormType 수정 가능 -> 수정하고 싶은 정보만 수정
+//입력된 정보는 Member에 저장됨, MemberInfo는 수정할 값을 임시 보관하는 용도
+//4가지 중 수정하려는 것만 선택적으로 Member에 전달
+//-> Custom Getter 필요 없음
+data class MemberInfoDto(
+    var userId: Long,
+    val password: String? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val dormType: String? = null
+) {
+    //MemberInfoDto -> MemberDtoRequest 변환
+    //변환된 MemberDtoRequest는 changeMyInfo(memberDtoRequest: MemberDtoRequest)에 사용됨
+    //기존 changeMyInfo 로직 유지
+    fun applyTo(member: Member): MemberDtoRequest {
+        return MemberDtoRequest(
+            userId = this.userId,
+            _loginId = member.loginId,
+            //password를 변경하지 않았으면 this.password == null -> member.password 대입
+            _password = this.password ?: member.password,
+            _name = this.name ?: member.name,
+            _email = this.email ?: member.email,
+            _dormType = this.dormType ?: member.dormType.name
+        )
+    }
+}
