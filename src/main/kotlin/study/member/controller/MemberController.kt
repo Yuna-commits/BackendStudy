@@ -60,7 +60,7 @@ class MemberController (
     }
 
     /**
-     * 내 정보 수정 -> 403 에러
+     * 내 정보 수정 -> 403 에러(오타)
      */
     @PutMapping("/info")
     fun changeMyInfo(@RequestBody @Valid memberInfoDto: MemberInfoDto):
